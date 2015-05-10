@@ -18,10 +18,10 @@
     <ClInclude Include="StateMachine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="State.h">
+    <ClInclude Include="Miner.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Miner.h">
+    <ClInclude Include="State.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

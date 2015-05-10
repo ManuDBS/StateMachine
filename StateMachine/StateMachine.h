@@ -7,10 +7,11 @@ class StateMachine
 {
 	private:
 		T* Agent;
-		State* actualState<T>;
+		State<T>* actualState;
 	
 	public:
-		StateMachine(T* otherAgent, State* otherActualState)
+		StateMachine() {}
+		StateMachine(T* otherAgent, State<T>* otherActualState)
 			:
 			Agent(otherAgent),
 			actualState(otherActualState)
