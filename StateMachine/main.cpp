@@ -1,6 +1,8 @@
 #include "Miner.h"
 #include <iostream>
 
+//PROVA FABIO
+
 void main()
 {
 	Miner* myMiner = new Miner(5.0f, 5.0f);
