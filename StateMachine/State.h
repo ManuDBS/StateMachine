@@ -1,137 +1,31 @@
 #pragma once
 
-#include "Miner.h"
+#include <string>
 
 template<typename T>
 class State
 {
-	protected:
-		virtual State<T>* OnExit(T*) = 0;
-		virtual void setState(State*) = 0;
-		virtual void Update(T*) = 0;
-		virtual void OnEnter(T*) = 0;
+	public:
+
+		void setNextState(State<T>* nextState)
+		{
+			this->nextState = nextState;
+		}
+
+		State<T>* getNextState(T*)
+		{
+			return this->nextState;
+		}
+
 		virtual ~State() {}
-};
 
-class Idle : public State<Miner>
-{
-	State *nextState;
+		virtual void OnEnter(T*) = 0;
+		virtual void Update(T*) = 0;
+		virtual State<T>* OnExit(T*) = 0;
+		virtual std::string getName() const = 0;
 
-	public:
-		void setState(State *nextState)
-		{
-			this->nextState = nextState;
-		}
-
-		State* OnExit(Miner* Agent)
-		{
-			return this->nextState;
-		}
-
-		void Update(Miner* Agent)
-		{
-			float fStamina = Agent->getStamina() + 1;
-			Agent->setStamina(fStamina);
-
-			if (fStamina > 0)
-			Agent->ChangeState();
-		}
-
-		void OnEnter(Miner* Agent)
-		{
-		}
-};	
-
-class WalkToMiner : public State<Miner>
-{
 	private:
-		State *nextState;
 
-	public:
-		void setState(State *nextState)
-		{
-			this->nextState = nextState;
-		}
-
-		State* OnExit(Miner* Agent)
-		{
-			return this->nextState;
-		}
-
-		void Update(Miner* Agent)
-		{
-			float fPosition = Agent->getPosition() + 1;
-			Agent->setPosition(fPosition);
-
-			if (Agent->getPosition == Agent->getDestination)
-				Agent->ChangeState();
-		}
-
-		void OnEnter(Miner* Agent)
-		{
-			Agent->setDestination(5);
-		}
+		State<T>* nextState;
 };
 
-class Mining : public State<Miner>
-{
-	private:
-		State *nextState;
-
-	public:
-		void setState(State *nextState)
-		{
-			this->nextState = nextState;
-		}
-
-		State* OnExit(Miner* Agent)
-		{
-			return this->nextState;
-		}
-
-		void Update(Miner* Agent)
-		{
-			float fLoad = Agent->getLoad() + 1;
-			float fStamina = Agent->getStamina() - 1;
-			Agent->setStamina(fStamina);
-			Agent->setLoad(fLoad);
-
-			if (fStamina <= 0 || fLoad == Agent->getMaxLoad())
-				Agent->ChangeState();
-		}
-
-		void OnEnter(Miner* Agent)
-		{
-		}
-};
-
-class WalkToHome : public State<Miner>
-{
-	private:
-		State *nextState;
-
-	public:
-		void setState(State *nextState)
-		{
-			this->nextState = nextState;
-		}
-
-		State* OnExit(Miner* Agent)
-		{
-			return this->nextState;
-		}
-
-		void Update(Miner* Agent)
-		{
-			float fPosition = Agent->getPosition() - 1;
-			Agent->setPosition(fPosition);
-
-			if (fPosition == Agent->getDestination)
-				Agent->ChangeState();
-		}
-
-		void OnEnter(Miner* Agent)
-		{
-			Agent->setDestination(0);
-		}
-};

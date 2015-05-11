@@ -2,6 +2,8 @@
 
 #include "StateMachine.h"
 
+#include <string>
+
 // Per ogni update del framework chiamo l'update della statemachine
 
 class Miner
@@ -10,46 +12,42 @@ class Miner
 		//Vector2 position;
 		//Vector2 destination;
 		float fStamina;
-		float fLoad; // number of stone
-		float fMaxLoad;
+		const float fMaxStamina;
+		int iLoad; // number of stone
+		const int iMaxLoad;
 		float fPosition; // only for debug
 		float fDestination; // only for debug
 		StateMachine<Miner> myStateMachine;
 
 	public:
-		Miner(float Stamina, float MaxLoad)
+		Miner(float Stamina, int MaxLoad)
 			: 
 			fStamina(Stamina),
-			fMaxLoad(MaxLoad)
+			fMaxStamina(Stamina),
+			iMaxLoad(MaxLoad)
 		{
 			//position = Vector2(0, 0);
 			//destination = Vector2(0, 0);
-			this->fLoad = 0;
+			this->iLoad = 0;
 			this->fPosition = 0;
 			this->fDestination = 0; // home
 		}
-
-		/*const Vector2& getPosition() const
-		{
-			return position;
-		}*/
-
-		/*const Vector2& getDestination() const
-		{
-			return destination;
-		}*/
 		
 		float getStamina() const
 		{
 			return fStamina;
 		}
-		float getLoad() const
+		float getMaxStamina() const
 		{
-			return fLoad;
+			return fMaxStamina;
 		}
-		float getMaxLoad() const
+		int getLoad() const
 		{
-			return fMaxLoad;
+			return iLoad;
+		}
+		int getMaxLoad() const
+		{
+			return iMaxLoad;
 		}
 		float getPosition() const
 		{
@@ -59,32 +57,39 @@ class Miner
 		{
 			return fDestination;
 		}
-		
-		void setStateMachine(StateMachine<Miner>& StateMachine)
+		void setStateMachine(const StateMachine<Miner>& StateMachine)
 		{
 			this->myStateMachine = StateMachine;
 		}
-
 		void setStamina(float fStamina)
 		{
 			this->fStamina = fStamina;
 		}
 		void setPosition(float fPosition)
 		{
-			this->setPosition = fPosition;
+			this->fPosition = fPosition;
 		}
 		void setDestination(float fDestination)
 		{
-			this->setDestination = fDestination;
+			this->fDestination = fDestination;
 		}
-		void setLoad(float fLoad)
+		void setLoad(int iLoad)
 		{
-			this->fLoad = fLoad;
+			this->iLoad = iLoad;
 		}
 
+		void Update()
+		{
+			myStateMachine.Update();
+		}
 		void ChangeState() 
 		{
 			myStateMachine.ChangeState();
+		}
+
+		std::string getStateName() const
+		{
+			return myStateMachine.getStateName();
 		}
 
 		~Miner() {}

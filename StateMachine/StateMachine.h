@@ -2,6 +2,8 @@
 
 #include "State.h"
 
+#include <string>
+
 template <typename T>
 class StateMachine
 {
@@ -20,12 +22,17 @@ class StateMachine
 
 		void ChangeState()
 		{
-			ActualState = ActualState->OnExit(Agent);
-			ActualState->OnEnter(Agent);
+			actualState = actualState->OnExit(Agent);
+			actualState->OnEnter(Agent);
 		}
 		
 		void Update()
 		{
-			ActualState->Update(Agent);
+			actualState->Update(Agent);
+		}
+
+		std::string getStateName() const
+		{
+			return actualState->getName();
 		}
 };
