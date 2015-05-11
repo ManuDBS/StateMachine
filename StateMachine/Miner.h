@@ -13,21 +13,21 @@ class Miner
 		//Vector2 destination;
 		float fStamina;
 		const float fMaxStamina;
-		int iLoad; // number of stone
+		float iLoad; // number of stone
 		const int iMaxLoad;
 		float fPosition; // only for debug
 		float fDestination; // only for debug
 		StateMachine<Miner> myStateMachine;
 
 	public:
-		Miner(float Stamina, int MaxLoad)
+		Miner(float MaxStamina, int MaxLoad)
 			: 
-			fStamina(Stamina),
-			fMaxStamina(Stamina),
+			fMaxStamina(MaxStamina),
 			iMaxLoad(MaxLoad)
 		{
 			//position = Vector2(0, 0);
 			//destination = Vector2(0, 0);
+			this->fStamina = 0;
 			this->iLoad = 0;
 			this->fPosition = 0;
 			this->fDestination = 0; // home
@@ -41,7 +41,7 @@ class Miner
 		{
 			return fMaxStamina;
 		}
-		int getLoad() const
+		float getLoad() const
 		{
 			return iLoad;
 		}
@@ -73,7 +73,7 @@ class Miner
 		{
 			this->fDestination = fDestination;
 		}
-		void setLoad(int iLoad)
+		void setLoad(float iLoad)
 		{
 			this->iLoad = iLoad;
 		}

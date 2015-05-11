@@ -5,6 +5,8 @@
 
 #include <string>
 
+const float dt = 0.016f;
+
 class Idle : public State<Miner>
 {
 
@@ -20,9 +22,8 @@ public:
 
 		if (fStamina < Agent->getMaxStamina())
 		{
-			Agent->setStamina(fStamina + 1);
-		}
-		else
+			Agent->setStamina(fStamina + (1 * dt));
+		} else
 		{
 			Agent->ChangeState();
 		}
@@ -42,21 +43,28 @@ public:
 
 class WalkToMine : public State<Miner>
 {
+private:
+	float fDestination;
 
 public:
+	WalkToMine(float Destination)
+		:
+		fDestination(Destination)
+	{}
 
 	void OnEnter(Miner* Agent)
 	{
-		Agent->setDestination(5);
+		Agent->setDestination(fDestination);
 	}
 
 	void Update(Miner* Agent)
 	{
-		float fPosition = Agent->getPosition() + 1;
-		Agent->setPosition(fPosition);
+		float fPosition = Agent->getPosition();
 
-		if (fPosition >= Agent->getDestination())
+		if ( fPosition >= Agent->getDestination())
 			Agent->ChangeState();
+		else
+			Agent->setPosition(fPosition + (50 * dt));
 	}
 
 	State<Miner>* OnExit(Miner* Agent)
@@ -82,13 +90,16 @@ public:
 
 	void Update(Miner* Agent)
 	{
-		int iLoad = Agent->getLoad() + 1;
-		float fStamina = Agent->getStamina() - 1;
-		Agent->setStamina(fStamina);
-		Agent->setLoad(iLoad);
+		float fLoad = Agent->getLoad();
+		float fStamina = Agent->getStamina();
 
-		if (fStamina <= 0 || iLoad == Agent->getMaxLoad())
+		if ( fStamina <= 0 || fLoad >= Agent->getMaxLoad())
 			Agent->ChangeState();
+		else
+		{
+			Agent->setStamina(fStamina - (1 * dt));
+			Agent->setLoad(fLoad + (1 * dt));
+		}
 	}
 
 	State<Miner>* OnExit(Miner* Agent)
@@ -105,21 +116,29 @@ public:
 
 class WalkToHome : public State<Miner>
 {
+private:
+	float fDestination;
 
 public:
+	WalkToHome(float Destination)
+		:
+		fDestination(Destination)
+	{
+	}
 
 	void OnEnter(Miner* Agent)
 	{
-		Agent->setDestination(0);
+		Agent->setDestination(fDestination);
 	}
 
 	void Update(Miner* Agent)
 	{
-		float fPosition = Agent->getPosition() - 1;
-		Agent->setPosition(fPosition);
+		float fPosition = Agent->getPosition();
 
 		if (fPosition <= Agent->getDestination())
 			Agent->ChangeState();
+		else
+			Agent->setPosition(fPosition - (50 * dt));
 	}
 
 	State<Miner>* OnExit(Miner* Agent)
@@ -143,13 +162,12 @@ class DropLoad : public State<Miner>
 
 	void Update(Miner* Agent)
 	{
-		int iLoad = Agent->getLoad();
+		float fLoad = Agent->getLoad();
 
-		if (iLoad > 0)
+		if (fLoad > 0)
 		{
-			Agent->setLoad(iLoad - 1);
-		}
-		else
+			Agent->setLoad(fLoad - (1*dt));
+		} else
 		{
 			Agent->ChangeState();
 		}
