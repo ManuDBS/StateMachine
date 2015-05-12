@@ -33,4 +33,9 @@
       <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Font Include="resources\myFont.ttf">
+      <Filter>Resource Files</Filter>
+    </Font>
+  </ItemGroup>
 </Project>
