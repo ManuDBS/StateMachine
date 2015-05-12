@@ -74,7 +74,7 @@ public:
 
 	std::string getName() const
 	{
-		return std::string("WalkToMine");
+		return std::string("Walk To Mine");
 	}
 
 };
@@ -148,7 +148,7 @@ public:
 
 	std::string getName() const
 	{
-		return std::string("WalkToHome");
+		return std::string("Walk To Home");
 	}
 
 };
@@ -180,7 +180,7 @@ class DropLoad : public State<Miner>
 
 	std::string getName() const
 	{
-		return std::string("DropLoad");
+		return std::string("Drop Load");
 	}
 
 };

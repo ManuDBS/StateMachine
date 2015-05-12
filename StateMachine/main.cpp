@@ -84,6 +84,15 @@ int main()
 	shapeMiner.setFillColor(sf::Color::Red);
 	shapeMiner.setPosition(vPositionMiner);
 
+	// Setup Text
+	sf::Font myFont;
+	myFont.loadFromFile("resources/myFont.ttf");
+	sf::Text textState;
+	textState.setFont(myFont);
+	textState.setCharacterSize(30);
+	textState.setColor(sf::Color::White);
+	sf::Vector2f vPositionText(10, 560);
+	textState.setPosition(vPositionText);
 
 	//------ Setup State Machine 
 	Miner* myMiner = new Miner(maxStamina, maxLoad);
@@ -125,7 +134,11 @@ int main()
 		sf::Vector2f moving(myMiner->getPosition(), 0);
 		shapeMiner.setPosition(vPositionMiner.x + myMiner->getPosition(), shapeMiner.getPosition().y);
 		window.draw(shapeMiner);
-		
+
+		// Draw Text
+		textState.setString("Stato: " + myMiner->getStateName());
+		window.draw(textState);
+
 		window.display();
 	}
 
