@@ -27,6 +27,9 @@
     <ClInclude Include="MinerStates.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SteeringBehaviors.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Font Include="resources\myFont.ttf">
