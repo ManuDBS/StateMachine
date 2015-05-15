@@ -6,62 +6,18 @@
 #include <iostream>
 #include <string>
 
+#include <SFML/Graphics.hpp>
+
 const float maxStamina = 5.0f;
 const int maxLoad = 5;
 
-/*
-void main()
-{
-
-	Miner* myMiner = new Miner(maxStamina, maxLoad);
-
-	Idle* stateIdle = new Idle();
-	WalkToMine* stateWalkToMiner = new WalkToMine();
-	Mining* stateMining	= new Mining();
-	WalkToHome* stateWalkToHome	= new WalkToHome();
-	DropLoad* stateDropLoad = new DropLoad();
-	
-	stateIdle->setNextState(stateWalkToMiner);
-	stateWalkToMiner->setNextState(stateMining);
-	stateMining->setNextState(stateWalkToHome);
-	stateWalkToHome->setNextState(stateDropLoad);
-	stateDropLoad->setNextState(stateIdle);
-
-	StateMachine<Miner> myStateMachine(myMiner, stateIdle);
-	myMiner->setStateMachine(myStateMachine);
-
-	char exit;
-	int iteration = 0;
-	do
-	{
-		//DEBUG--------------------------------------------------------------------//
-		system("cls");																//
-		std::cout << "Iteration number : " << iteration << std::endl;				//
-		std::cout << "Actual State : " << myMiner->getStateName() << std::endl;		//
-		std::cout << "Stamina : " << myMiner->getStamina() << std::endl;			//
-		std::cout << "Max Stamina : " << myMiner->getMaxStamina() << std::endl;		//
-		std::cout << "Load : " << myMiner->getLoad() << std::endl;					//
-		std::cout << "MaxLoad : " << myMiner->getMaxLoad() << std::endl;			//
-		std::cout << "Position : " << myMiner->getPosition() << std::endl;			//
-		std::cout << "Destination : " << myMiner->getDestination() << std::endl;	//
-		//END DEBUG----------------------------------------------------------------//
-
-		myMiner->Update();
-
-		++iteration;
-		exit = _getch();
-	} while (exit != 'y');
-
-	
-}
-*/
-
-#include <SFML/Graphics.hpp>
+// Set true for debug
+const bool bDebug = true;
 
 int main()
 {
+	sf::Clock myClock;
 	sf::RenderWindow window(sf::VideoMode(600, 600), "The Miner");
-	window.setFramerateLimit(60); // FPS Limit to 60
 
 	// Setup Home 
 	sf::Vector2f vSizeHome(50.0f, 50.0f); // Size
@@ -113,7 +69,6 @@ int main()
 	myMiner->setStateMachine(myStateMachine);
 	//------ End Setup State Machine 
 
-
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -129,8 +84,25 @@ int main()
 		window.draw(shapeHome);
 		window.draw(shapeMine);
 		
+		if (bDebug)
+		{
+			// ------ Debug
+			system("cls");
+			std::cout << "Actual State : " << myMiner->getStateName() << std::endl;
+			std::cout << "Stamina : " << myMiner->getStamina() << std::endl;
+			std::cout << "Max Stamina : " << myMiner->getMaxStamina() << std::endl;
+			std::cout << "Load : " << myMiner->getLoad() << std::endl;
+			std::cout << "MaxLoad : " << myMiner->getMaxLoad() << std::endl;
+			std::cout << "Position : " << myMiner->getPosition() << std::endl;
+			std::cout << "Destination : " << myMiner->getDestination() << std::endl;
+			// ------ End Debug
+		}
+
 		// Draw Miner
-		myMiner->Update();
+		sf::Time myTime = myClock.getElapsedTime();
+		myMiner->Update(myTime.asSeconds());
+		myClock.restart();
+		
 		sf::Vector2f moving(myMiner->getPosition(), 0);
 		shapeMiner.setPosition(vPositionMiner.x + myMiner->getPosition(), shapeMiner.getPosition().y);
 		window.draw(shapeMiner);

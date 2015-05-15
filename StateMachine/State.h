@@ -20,7 +20,7 @@ class State
 		virtual ~State() {}
 
 		virtual void OnEnter(T*) = 0;
-		virtual void Update(T*) = 0;
+		virtual void Update(float, T*) = 0;
 		virtual State<T>* OnExit(T*) = 0;
 		virtual std::string getName() const = 0;
 

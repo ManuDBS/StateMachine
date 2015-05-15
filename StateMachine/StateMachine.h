@@ -26,9 +26,9 @@ class StateMachine
 			actualState->OnEnter(Agent);
 		}
 		
-		void Update()
+		void Update(float dt)
 		{
-			actualState->Update(Agent);
+			actualState->Update(dt, Agent);
 		}
 
 		std::string getStateName() const

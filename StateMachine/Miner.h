@@ -78,9 +78,9 @@ class Miner
 			this->iLoad = iLoad;
 		}
 
-		void Update()
+		void Update(float dt)
 		{
-			myStateMachine.Update();
+			myStateMachine.Update(dt);
 		}
 		void ChangeState() 
 		{

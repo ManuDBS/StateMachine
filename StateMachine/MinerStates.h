@@ -5,8 +5,6 @@
 
 #include <string>
 
-const float dt = 0.016f;
-
 class Idle : public State<Miner>
 {
 
@@ -16,7 +14,7 @@ public:
 	{
 	}
 
-	void Update(Miner* Agent)
+	void Update(float dt, Miner* Agent)
 	{
 		float fStamina = Agent->getStamina();
 
@@ -50,14 +48,15 @@ public:
 	WalkToMine(float Destination)
 		:
 		fDestination(Destination)
-	{}
+	{
+	}
 
 	void OnEnter(Miner* Agent)
 	{
 		Agent->setDestination(fDestination);
 	}
 
-	void Update(Miner* Agent)
+	void Update(float dt, Miner* Agent)
 	{
 		float fPosition = Agent->getPosition();
 
@@ -88,7 +87,7 @@ public:
 	{
 	}
 
-	void Update(Miner* Agent)
+	void Update(float dt, Miner* Agent)
 	{
 		float fLoad = Agent->getLoad();
 		float fStamina = Agent->getStamina();
@@ -131,7 +130,7 @@ public:
 		Agent->setDestination(fDestination);
 	}
 
-	void Update(Miner* Agent)
+	void Update(float dt, Miner* Agent)
 	{
 		float fPosition = Agent->getPosition();
 
@@ -156,11 +155,13 @@ public:
 class DropLoad : public State<Miner>
 {
 
+public:
+
 	void OnEnter(Miner* Agent)
 	{
 	}
 
-	void Update(Miner* Agent)
+	void Update(float dt, Miner* Agent)
 	{
 		float fLoad = Agent->getLoad();
 
